@@ -1,0 +1,11 @@
+/data
+/experiment
+/models
+/vis*
+*.pyc
+*.npy
+*.deb
+*.pkl
+/mmtracking
+/tools
+__pycache__
