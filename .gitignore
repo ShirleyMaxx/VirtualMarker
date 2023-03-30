@@ -6,6 +6,4 @@
 *.npy
 *.deb
 *.pkl
-/mmtracking
-/tools
 __pycache__

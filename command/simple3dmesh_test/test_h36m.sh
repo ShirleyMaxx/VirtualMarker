@@ -1,0 +1,1 @@
+python main/main.py --cfg ./configs/simple3dmesh_test/baseline_h36m.yml --experiment_name simple3dmesh_test/baseline_h36m --gpus 4 --mode test

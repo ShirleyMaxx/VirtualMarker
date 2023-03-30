@@ -1,0 +1,50 @@
+dataset:
+    train_list: ['Human36M', 'HP3D', 'Up_3D', 'MSCOCO']
+    test_list: ['Human36M']
+    input_joint_set: 'vm'
+    workers: 8
+    use_tight_bbox: True
+    use_coco3d_up3d: False
+
+model:
+    name: 'simple3dmesh'
+
+loss:
+    loss_weight_joint3d: 100
+    loss_weight_joint3d_reg: 0.1
+    loss_weight_conf: 0.1
+    loss_weight_mesh3d: 0.1
+    loss_weight_normal: 0.1
+    loss_weight_edge: 0.01
+
+train:
+    print_freq: 100
+    vis_freq: 2000
+    batch_size: 10
+    shuffle: True
+    begin_epoch: 1
+    end_epoch: 40
+    scheduler: 'step'
+    lr: 0.001
+    lr_step: [30]
+    lr_factor: 0.5
+    simple3dpose_lr: 0.0005
+    simple3dpose_lr_step: [30]
+    simple3dpose_lr_factor: 0.5
+    optimizer: 'adam'
+    edge_loss_start: 10
+
+aug:
+    flip: True
+    rotate_factor: 30
+    color_factor: 0.2
+    scale_factor: 0.3
+    occlusion: True
+
+test:
+    batch_size: 24
+    shuffle: False
+    vis: True
+    vis_freq: 1000
+    weight_path: 'experiment/simple3dmesh_train/baseline_h36m/final.pth.tar'
+    save_obj: False
