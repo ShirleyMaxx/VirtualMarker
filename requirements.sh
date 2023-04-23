@@ -1,3 +1,4 @@
+pip install numpy==1.23.0
 pip install opencv-python
 pip install torchgeometry
 pip install transforms3d
@@ -16,3 +17,5 @@ pip install pyrender
 pip install chumpy
 pip install termcolor
 pip install imageio[ffmpeg]
+pip install json_tricks
+conda install ffmpeg==4.3 -y

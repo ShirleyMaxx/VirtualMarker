@@ -1,16 +1,15 @@
 import os
 import argparse
 import torch
-import __init_path
 import shutil
 import time
 import numpy as np
 import scipy.sparse as ssp
 
-from utils.funcs_utils import save_checkpoint, check_data_pararell
-from core.config import cfg, update_config, init_experiment_dir
-from core.function import Simple3DMeshTrainer, Simple3DMeshTester
-from core.function import Simple3DMeshPostTester
+from virtualmarker.utils.funcs_utils import save_checkpoint, check_data_pararell
+from virtualmarker.core.config import cfg, update_config, init_experiment_dir
+from virtualmarker.core.function import Simple3DMeshTrainer, Simple3DMeshTester
+from virtualmarker.core.function import Simple3DMeshPostTester
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train/test VirtualMarker')

@@ -54,16 +54,17 @@ Below is the learned virtual markers and the overall framework.
   <img src="demo/pipeline.png" height="160" /> 
 </p>
 
+## News :triangular_flag_on_post:
+[2023/04/23] Demo code released!
 
 ## TODO :white_check_mark:
 
-- [ ] Provide inference code
-
+- [x] Provide inference code, support image/video input
+- [ ] Provide virtual marker optimization code
 
 ## Installation
 
-1. Clone this codebase as ${Project}.
-2. Install dependences. This project is developed using >= python 3.8 on Ubuntu 16.04. NVIDIA GPUs are needed. We recommend you to use an [Anaconda](https://www.anaconda.com/) virtual environment.
+1. Install dependences. This project is developed using >= python 3.8 on Ubuntu 16.04. NVIDIA GPUs are needed. We recommend you to use an [Anaconda](https://www.anaconda.com/) virtual environment.
 
   ```bash
     # 1. Create a conda virtual environment.
@@ -71,17 +72,24 @@ Below is the learned virtual markers and the overall framework.
     conda activate pytorch
 
     # 2. Install PyTorch >= v1.6.0 following [official instruction](https://pytorch.org/). Please adapt the cuda version to yours.
-    pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f https://download.pytorch.org/whl/torch_stable.html
+    pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
 
     # 3. Install other packages. This project doesn't have any special or difficult-to-install dependencies.
     sh requirements.sh
-  ```
-3. Prepare SMPL layer. We use [smplx](https://github.com/vchoutas/smplx#installation).
 
-   1. Install `smplx` package by `pip install smplx`.
+    # 4. Pull our code.
+    git clone https://github.com/ShirleyMaxx/VirtualMarker.git
+    cd VirtualMarker
+
+    #5. Install Virtual Marker
+    python setup.py develop
+  ```
+2. Prepare SMPL layer. We use [smplx](https://github.com/vchoutas/smplx#installation).
+
+   1. Install `smplx` package by `pip install smplx`. Already done in the first step.
    2. Download `basicModel_f_lbs_10_207_0_v1.0.0.pkl`, `basicModel_m_lbs_10_207_0_v1.0.0.pkl`, and `basicModel_neutral_lbs_10_207_0_v1.0.0.pkl` from [here](https://smpl.is.tue.mpg.de/) (female & male) and [here](http://smplify.is.tue.mpg.de/) (neutral) to `${Project}/data/smpl`. Please rename them as `SMPL_FEMALE.pkl`, `SMPL_MALE.pkl`, and `SMPL_NEUTRAL.pkl`, respectively.
    3. Download others SMPL-related from [here](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/Ekse-wqgeKVLoTm5lS-aKRABkE_wooh4E83SHEhDxb8H3g?e=s8DWEG) and put them to `${Project}/data/smpl`.
-4. Download data following the **Data** section. In summary, your directory tree should be like this
+3. Download data following the **Data** section. In summary, your directory tree should be like this
 
   ```
     ${Project}
@@ -96,6 +104,7 @@ Below is the learned virtual markers and the overall framework.
     ├── main 
     ├── models 
     ├── README.md
+    ├── setup.py
     `── requirements.sh
   ```
 
@@ -108,6 +117,31 @@ Below is the learned virtual markers and the overall framework.
   - `models` contains pre-trained weights. Download from [here](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/EmtcUZXZAxtPsxIyoOrS5m0B-ox4dzS_9wBAgSyYbq_flQ?e=QVxc2E).
   - *`experiment` will be automatically made after running the code, it contains the outputs, including trained model weights, test metrics and visualized outputs.
 
+## Quick demo :star:
+
+1. **Installation.** Make sure you have finished the above installation successfully. VirtualMarker does not detect person and only estimates relative pose and mesh, therefore please also install [VirtualPose](https://github.com/wkom/VirtualPose) following its instructions. VirtualPose will detect all the person and estimate their root depths. Download its model [weight](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/EkvCjguda3dNmlQjjumitWEB5OPj9fntf1Hyk1pNZrJHwg?e=ZG08CM) and put it under `VirtualPose`.
+  ```bash
+  git clone https://github.com/wkom/VirtualPose.git
+  cd VirtualPose
+  python setup.py develop
+  ```
+
+2. **Render Env.** If you run this code in ssh environment without display device, please do follow:
+  ```
+  1. Install osmesa follow https://pyrender.readthedocs.io/en/latest/install/
+  2. Reinstall the specific pyopengl fork: https://github.com/mmatl/pyopengl
+  3. Set opengl's backend to osmesa via os.environ["PYOPENGL_PLATFORM"] = "osmesa"
+  ```
+
+3. **Model weight.** Download the pre-trained VirtualMarker models from [here](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/Egq_U92SyMxJvjb0g3-M16YBd02iG8ZCg_dmPFM2e5XjMw?e=aM8efG). Put the weight below `experiment` folder and follow the directory structure. Specify the load weight path by `test.weight_path` in `configs/simple3dmesh_infer/baseline.yml`.
+
+4. **Input image/video.** Prepare `input.jpg` or `input.mp4` and put it at `inputs` folder. Both image and video input are supported. Specify the input path and type by arguments.
+
+5. **RUN.** You can check the output at `experiment/simple3dmesh_infer/exp_*/vis`.
+  ```bash
+  sh command/simple3dmesh_infer/baseline.sh
+  ```
+  
 
 ## Train & Eval
 
@@ -152,7 +186,7 @@ Every experiment is defined by `config` files. Configs of the experiments in the
 
 To train the model, simply run the script below. Specific configurations can be modified in the corresponding `configs/simple3dmesh_train/baseline.yml` file. Default setting is using 4 GPUs (16G V100). Multi-GPU training is implemented with PyTorch's [DataParallel](https://pytorch.org/docs/stable/generated/torch.nn.DataParallel.html#torch.nn.DataParallel). Results can be seen in `experiment` directory or in the tensorboard.
 
-We conduct mix-training on H3.6M and 3DPW datasets. To get the reported results on 3DPW dataset, please first run `train_h36m.sh` and then load the final weight to train on 3DPW by running `train_pw3d.sh`. We train a seperate model on SURREAL dataset using `train_surreal.sh`. 
+We conduct mix-training on H3.6M and 3DPW datasets. To get the reported results on 3DPW dataset, please first run `train_h36m.sh` and then load the final weight to train on 3DPW by running `train_pw3d.sh`. This finetuning strategy is for faster training and better performance. We train a seperate model on SURREAL dataset using `train_surreal.sh`. 
 
 ```bash
 sh command/simple3dmesh_train/train_h36m.sh

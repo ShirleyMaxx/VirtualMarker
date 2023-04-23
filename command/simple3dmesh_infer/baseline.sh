@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=0 python main/inference.py --cfg ./configs/simple3dmesh_infer/baseline.yml --experiment_name simple3dmesh_infer/ --gpu 1 --input_path inputs/input.mp4 --input_type video

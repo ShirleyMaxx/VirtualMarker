@@ -1,9 +1,15 @@
 /data
 /experiment
 /models
-/vis*
+VirtualPose
 *.pyc
 *.npy
 *.deb
 *.pkl
 __pycache__
+version.py
+/.vscode
+/.eggs
+/dist
+/build
+/virtualmarker.egg-info

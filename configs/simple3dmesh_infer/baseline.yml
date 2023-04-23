@@ -1,0 +1,14 @@
+dataset:
+    test_list: ['Demo']
+    input_joint_set: 'vm'
+    workers: 8
+    use_tight_bbox: True
+
+model:
+    name: 'simple3dmesh'
+
+test:
+    vis: True
+    vis_freq: 500
+    save_obj: True
+    weight_path: 'experiment/simple3dmesh_train/baseline_mix/final.pth.tar'
