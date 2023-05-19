@@ -88,7 +88,7 @@ Below is the learned virtual markers and the overall framework.
 
    1. Install `smplx` package by `pip install smplx`. Already done in the first step.
    2. Download `basicModel_f_lbs_10_207_0_v1.0.0.pkl`, `basicModel_m_lbs_10_207_0_v1.0.0.pkl`, and `basicModel_neutral_lbs_10_207_0_v1.0.0.pkl` from [here](https://smpl.is.tue.mpg.de/) (female & male) and [here](http://smplify.is.tue.mpg.de/) (neutral) to `${Project}/data/smpl`. Please rename them as `SMPL_FEMALE.pkl`, `SMPL_MALE.pkl`, and `SMPL_NEUTRAL.pkl`, respectively.
-   3. Download others SMPL-related from [here](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/Ekse-wqgeKVLoTm5lS-aKRABkE_wooh4E83SHEhDxb8H3g?e=s8DWEG) and put them to `${Project}/data/smpl`.
+   3. Download others SMPL-related from [Google drive](https://drive.google.com/drive/folders/1LRMo_7raQuSRuUKAvXKSlzlvQJ5C0IHR?usp=share_link) or [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EitToj4t0BlMmKAo6CZT2H8BMmkyAKQBjY6kO5h0htKveA?e=b57zU5) and put them to `${Project}/data/smpl`.
 3. Download data following the **Data** section. In summary, your directory tree should be like this
 
   ```
@@ -114,12 +114,12 @@ Below is the learned virtual markers and the overall framework.
   - `data` contains soft links to images and annotations directories.
   - `lib` contains kernel codes for our method.
   - `main` contains high-level codes for training or testing the network.
-  - `models` contains pre-trained weights. Download from [here](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/EmtcUZXZAxtPsxIyoOrS5m0B-ox4dzS_9wBAgSyYbq_flQ?e=QVxc2E).
+  - `models` contains pre-trained weights. Download from [Google drive](https://drive.google.com/drive/folders/1IQ-rvjj_t6ZInlzDfKBNeJ0noOs3fIaW?usp=share_link) or [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EggzlMbPMwtDr8aBb8HNySQBuhh3CtWceRbQMcMdiztDcg?e=YgTfry).
   - *`experiment` will be automatically made after running the code, it contains the outputs, including trained model weights, test metrics and visualized outputs.
 
 ## Quick demo :star:
 
-1. **Installation.** Make sure you have finished the above installation successfully. VirtualMarker does not detect person and only estimates relative pose and mesh, therefore please also install [VirtualPose](https://github.com/wkom/VirtualPose) following its instructions. VirtualPose will detect all the person and estimate their root depths. Download its model [weight](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/EkvCjguda3dNmlQjjumitWEB5OPj9fntf1Hyk1pNZrJHwg?e=ZG08CM) and put it under `VirtualPose`.
+1. **Installation.** Make sure you have finished the above installation successfully. VirtualMarker does not detect person and only estimates relative pose and mesh, therefore please also install [VirtualPose](https://github.com/wkom/VirtualPose) following its instructions. VirtualPose will detect all the person and estimate their root depths. Download its model weight from [Google drive](https://drive.google.com/drive/folders/1Y8unp_CQnXsWr1WljAgW0rYCMGkru6Ce?usp=share_link) or [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/ElPhUt3LaJpMgv7dH7YbJ2gBHPqS7E6fQg41tszqmHbzmg?e=wyZOKW) and put it under `VirtualPose`.
   ```bash
   git clone https://github.com/wkom/VirtualPose.git
   cd VirtualPose
@@ -133,7 +133,7 @@ Below is the learned virtual markers and the overall framework.
   3. Set opengl's backend to osmesa via os.environ["PYOPENGL_PLATFORM"] = "osmesa"
   ```
 
-3. **Model weight.** Download the pre-trained VirtualMarker models from [here](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/Egq_U92SyMxJvjb0g3-M16YBd02iG8ZCg_dmPFM2e5XjMw?e=aM8efG). Put the weight below `experiment` folder and follow the directory structure. Specify the load weight path by `test.weight_path` in `configs/simple3dmesh_infer/baseline.yml`.
+3. **Model weight.** Download the pre-trained VirtualMarker models `baseline_mix` from [Google drive](https://drive.google.com/drive/folders/1ze5fdLC7NSq0GQBi2N8nfp2RNU9RigPl?usp=share_link) or [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EvdcQ8qbV9dMgEV-0iCwrN0BF6ZP3Cg3jaux5BqZxavg8Q?e=F51UNE). Put the weight below `experiment` folder and follow the directory structure. Specify the load weight path by `test.weight_path` in `configs/simple3dmesh_infer/baseline.yml`.
 
 4. **Input image/video.** Prepare `input.jpg` or `input.mp4` and put it at `inputs` folder. Both image and video input are supported. Specify the input path and type by arguments.
 
@@ -147,7 +147,7 @@ Below is the learned virtual markers and the overall framework.
 
 ### Data
 
-The `data` directory structure should follow the below hierarchy. Please download the images from the official sites. Download all the processed annotation files from [here](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/Eq8EbSOjkaRHkMkV_BbvDYYBkzSGTlDlZ_muWy7IscZWGA?e=3Rk6ub).
+The `data` directory structure should follow the below hierarchy. Please download the images from the official sites. Download all the processed annotation files from [Google drive](https://drive.google.com/drive/folders/1rO281oqAmM_r4jJ-y3R1OdxB39rxLwBO?usp=share_link) or [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EhZc4AXYoyNBpVGEzikENb0BQr3TvYdlnKOg-I2CLs7jrw?e=zYbAn5).
 
 ```
 ${Project}
@@ -206,12 +206,12 @@ sh command/simple3dmesh_test/test_surreal.sh
 
 ### Model Zoo
 
-| Test set | MPVE |     MPJPE     | PA-MPJPE |  Download | Config |  
+| Test set | MPVE |     MPJPE     | PA-MPJPE |  Model weight | Config |  
 |----------|----------|------------|------------|-------|-----------|
-| Human3.6M    | 58.0 | 47.3 | 32.0 | [model](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/EksPuX3YJlZNjAHgJhRKj1QBzWKC67_ao3ksbwLRK7VTQQ?e=rBOrrK) | [cfg](./configs/simple3dmesh_train/baseline_h36m.yml)    |
-| 3DPW         | 77.9 | 67.5 | 41.3 | [model](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/EjoJjNeDm1ZLq4AwDyBX39MBTl9SVDXdlhU4KPraxxipcA?e=tPREyy) | [cfg](./configs/simple3dmesh_train/baseline_pw3d.yml)    |
-| SURREAL      | 44.7 | 36.9 | 28.9 | [model](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/EtYVRm2N3MhJrzIwJaMa7HEBG-ijLD_0UK9pfKcqwVkSuA?e=438Ejk) | [cfg](./configs/simple3dmesh_train/baseline_surreal.yml)    |
-| in-the-wild* | | | | [model](https://pkueducn-my.sharepoint.com/:f:/g/personal/maxiaoxuan_pku_edu_cn/Egq_U92SyMxJvjb0g3-M16YBd02iG8ZCg_dmPFM2e5XjMw?e=aM8efG) |  |
+| Human3.6M    | 58.0 | 47.3 | 32.0 | [Google drive](https://drive.google.com/drive/folders/1QS8efRtC_JjdYFfNuU8rIZGo-Uhe9-ds?usp=share_link) / [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EineK0RVcTJDp3GaHSCmcBcBL5vDIfU2rJTGqwqvvTmerg?e=1yz86L) | [cfg](./configs/simple3dmesh_train/baseline_h36m.yml)    |
+| 3DPW         | 77.9 | 67.5 | 41.3 | [Google drive](https://drive.google.com/drive/folders/1tTJ_NbgvQW54XndrOyhUKjBbtKERA9VK?usp=share_link) / [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EhMAavEedCVDsDwqaDVLVQoBV9tr4fuo8BBqBaAlRBCN2Q?e=qtqfGn) | [cfg](./configs/simple3dmesh_train/baseline_pw3d.yml)    |
+| SURREAL      | 44.7 | 36.9 | 28.9 | [Google drive](https://drive.google.com/drive/folders/1M_Y0HBMRGNb3ehYVRI3Vr7DzIiPHw96I?usp=share_link) / [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EgLwX0KNRQ1Di8WZdEgEhsABsrkDP4Req24i9nnxAevZuw?e=q1GetL) | [cfg](./configs/simple3dmesh_train/baseline_surreal.yml)    |
+| in-the-wild* | | | | [Google drive](https://drive.google.com/drive/folders/1Hlx45hGeYjByUI0gGCfGcUp_afp3FmeO?usp=share_link) / [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EhOEMCI1DVlCkluAHvt8nJEB3f3yDbcYuFJ2YqmFJqvdrg?e=LBQkYH) |  |
 
 \* We further train a model for better inference performance on in-the-wild scenes by finetuning the 3DPW model on SURREAL dataset. 
 

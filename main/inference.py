@@ -51,7 +51,7 @@ def parse_args():
     return args
 
 class Simple3DMeshInferencer:
-    def __init__(self, args, load_path='', writer=None, img_path_list=[], detection_all=[], max_person=-1):
+    def __init__(self, args, load_path='', writer=None, img_path_list=[], detection_all=[], max_person=-1, fps=-1):
         self.args = args
         # prepare inference dataset
         demo_dataset = DemoDataset(img_path_list, detection_all)
@@ -59,6 +59,7 @@ class Simple3DMeshInferencer:
         self.detection_all = detection_all
         self.img_path_list = img_path_list
         self.max_person = max_person
+        self.fps = fps
         self.demo_dataloader = DataLoader(self.demo_dataset, batch_size=min(args.batch_size, len(detection_all)), num_workers=8)
 
         # prepare inference model
@@ -132,7 +133,7 @@ class Simple3DMeshInferencer:
         self.visualize(results)
         return results
 
-    def visualize(self, results, fps=25):
+    def visualize(self, results):
         pred_mesh = results['pred_mesh']  # (N*T, V, 3)
         pred_root_xy_img = results['pred_root_xy_img']  # (N*T, J, 2)
         pose_root = results['pose_root']  # (N*T, 3)
@@ -148,7 +149,7 @@ class Simple3DMeshInferencer:
 
         pred_mesh = pred_mesh + pose_root
         pred_mesh_T_N = np.zeros((len(self.img_path_list), self.max_person, self.demo_dataset.vertex_num, 3))
-        videowriter = imageio.get_writer(osp.join(cfg.vis_dir, f"{self.args.input_path.split('/')[-1][:-4]}_results_in_2d.mp4"), fps=fps)
+        videowriter = imageio.get_writer(osp.join(cfg.vis_dir, f"{self.args.input_path.split('/')[-1][:-4]}_results_in_2d.mp4"), fps=self.fps)
         for img_idx, img_path in enumerate(tqdm(self.img_path_list, dynamic_ncols=True)):
             img = cv2.imread(img_path)
             ori_img_height, ori_img_width = img.shape[:2]
@@ -160,11 +161,14 @@ class Simple3DMeshInferencer:
             pred_mesh_T_N[img_idx, :pred_mesh_T.shape[0]] = pred_mesh_T
 
             # render to image
-            rgb, depth = render_mesh(ori_img_height, ori_img_width, pred_mesh_T/1000.0, self.smpl_faces, {'focal': focal_T, 'princpt': center_pt_T})
-            valid_mask = (depth > 0)[:,:,None] 
-            rendered_img = rgb * valid_mask + img[:,:,::-1] * (1-valid_mask)
-            cv2.imwrite(osp.join(cfg.vis_dir, f"{self.args.input_path.split('/')[-1][:-4]}_results_in_2d.jpg"), rendered_img.astype(np.uint8)[...,::-1])
-            videowriter.append_data(rendered_img.astype(np.uint8))
+            try:
+                rgb, depth = render_mesh(ori_img_height, ori_img_width, pred_mesh_T/1000.0, self.smpl_faces, {'focal': focal_T, 'princpt': center_pt_T})
+                valid_mask = (depth > 0)[:,:,None] 
+                rendered_img = rgb * valid_mask + img[:,:,::-1] * (1-valid_mask)
+                cv2.imwrite(osp.join(cfg.vis_dir, f"{self.args.input_path.split('/')[-1][:-4]}_results_in_2d.jpg"), rendered_img.astype(np.uint8)[...,::-1])
+                videowriter.append_data(rendered_img.astype(np.uint8))
+            except:
+                videowriter.append_data(img.astype(np.uint8)[...,::-1])
         videowriter.close()
 
 
@@ -268,15 +272,18 @@ def detect_all_persons(args, img_dir):
     return detection_all, max_person, valid_frame_idx_all
 
 def video_to_images(vid_file, img_folder=None):
+    cap = cv2.VideoCapture(vid_file)
+    fps = int(round(cap.get(cv2.CAP_PROP_FPS)))
     command = ['ffmpeg',
                '-i', vid_file,
-               '-r', '15',
+               '-r', str(fps),
                '-f', 'image2',
                '-v', 'error',
                f'{img_folder}/%06d.png']
     print(f'Running \"{" ".join(command)}\"')
     subprocess.call(command)
     print(f'Images saved to \"{img_folder}\"')
+    return fps
 
 def get_image_path(args):
 
@@ -289,6 +296,7 @@ def get_image_path(args):
         os.makedirs(img_dir, exist_ok=True)
         shutil.copy(args.input_path, img_dir)
         img_path_list = [osp.join(img_dir, args.input_path.split('/')[-1])]
+        fps = -1
     elif args.input_type == "video":
         basename = osp.basename(args.input_path).split('.')[0]
         img_dir = osp.join(osp.dirname(osp.abspath(args.input_path)), basename)
@@ -297,7 +305,7 @@ def get_image_path(args):
         except:
             pass
         os.makedirs(img_dir, exist_ok=True)
-        video_to_images(args.input_path, img_folder=img_dir)
+        fps = video_to_images(args.input_path, img_folder=img_dir)
 
         # get all image paths
         img_path_list = glob.glob(osp.join(img_dir, '*.jpg'))
@@ -305,7 +313,7 @@ def get_image_path(args):
         img_path_list.sort()
     else:
         assert 0, 'only support image/video input type'
-    return img_path_list, img_dir
+    return img_path_list, img_dir, fps
 
 def main(args):
     # ############ prepare environments ############
@@ -323,7 +331,7 @@ def main(args):
     # ############ get all image paths ############
     print("Input path:", args.input_path)
     print("Input type:", args.input_type)
-    img_path_list, img_dir = get_image_path(args)
+    img_path_list, img_dir, fps = get_image_path(args)
 
     # ############ detect all persons with estimated root depth ############
     detection_all, max_person, valid_frame_idx_all = detect_all_persons(args, img_dir)
@@ -332,7 +340,7 @@ def main(args):
     # create the model instance and load checkpoint
     load_path_test = cfg.test.weight_path
     assert cfg.model.name == 'simple3dmesh', 'check cfg of the model name'
-    inferencer = Simple3DMeshInferencer(args, load_path=load_path_test, writer=writer, img_path_list=img_path_list, detection_all=detection_all, max_person=max_person)
+    inferencer = Simple3DMeshInferencer(args, load_path=load_path_test, writer=writer, img_path_list=img_path_list, detection_all=detection_all, max_person=max_person, fps=fps)
 
 
     # ############ inference virtual marker model ############
