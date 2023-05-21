@@ -44,7 +44,11 @@ This is the offical [Pytorch](https://pytorch.org/) implementation of our paper:
 
 </h4>
 <h4 align="center">
-  <a href="https://arxiv.org/pdf/2303.11726.pdf", target="_blank">[arXiv]</a>
+  <a href="https://shirleymaxx.github.io/virtual_marker/", target="_blank">[project page]</a> /
+  <a href="https://www.youtube.com/watch?v=je2gNUiYl2c", target="_blank">[video]</a> /
+  <a href="https://arxiv.org/pdf/2303.11726.pdf", target="_blank">[arXiv]</a> /
+  <a href="https://openaccess.thecvf.com/content/CVPR2023/papers/Ma_3D_Human_Mesh_Estimation_From_Virtual_Markers_CVPR_2023_paper.pdf", target="_blank">[paper]</a> /
+  <a href="https://openaccess.thecvf.com/content/CVPR2023/supplemental/Ma_3D_Human_Mesh_CVPR_2023_supplemental.pdf", target="_blank">[supplementary]</a>
 </h4>
 
 Below is the learned virtual markers and the overall framework.
@@ -55,6 +59,8 @@ Below is the learned virtual markers and the overall framework.
 </p>
 
 ## News :triangular_flag_on_post:
+[2023/05/21] Project page with more demos.
+
 [2023/04/23] Demo code released!
 
 ## TODO :white_check_mark:
@@ -219,11 +225,13 @@ sh command/simple3dmesh_test/test_surreal.sh
 ## Citation
 Cite as below if you find this repository is helpful to your project:
 ```bibtex
-@article{ma20233d,
-  title={3D Human Mesh Estimation from Virtual Markers},
-  author={Ma, Xiaoxuan and Su, Jiajun and Wang, Chunyu and Zhu, Wentao and Wang, Yizhou},
-  journal={arXiv preprint arXiv:2303.11726},
-  year={2023}
+@InProceedings{Ma_2023_CVPR,
+    author    = {Ma, Xiaoxuan and Su, Jiajun and Wang, Chunyu and Zhu, Wentao and Wang, Yizhou},
+    title     = {3D Human Mesh Estimation From Virtual Markers},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2023},
+    pages     = {534-543}
 }
 ```
 
