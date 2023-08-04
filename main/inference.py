@@ -289,10 +289,10 @@ def get_image_path(args):
 
     if args.input_type == "image":
         img_dir = osp.join(osp.dirname(osp.abspath(args.input_path)), args.input_path.split('/')[-1][:-4])
-        try:
-            shutil.rmtree(img_dir)
-        except:
-            pass
+        # try:
+        #     shutil.rmtree(img_dir)
+        # except:
+        #     pass
         os.makedirs(img_dir, exist_ok=True)
         shutil.copy(args.input_path, img_dir)
         img_path_list = [osp.join(img_dir, args.input_path.split('/')[-1])]
@@ -300,10 +300,10 @@ def get_image_path(args):
     elif args.input_type == "video":
         basename = osp.basename(args.input_path).split('.')[0]
         img_dir = osp.join(osp.dirname(osp.abspath(args.input_path)), basename)
-        try:
-            shutil.rmtree(img_dir)
-        except:
-            pass
+        # try:
+        #     shutil.rmtree(img_dir)
+        # except:
+        #     pass
         os.makedirs(img_dir, exist_ok=True)
         fps = video_to_images(args.input_path, img_folder=img_dir)
 
