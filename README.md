@@ -106,7 +106,7 @@ Below is the learned virtual markers and the overall framework.
     ├── demo 
     ├── experiment 
     ├── inputs 
-    ├── lib 
+    ├── virtualmarker 
     ├── main 
     ├── models 
     ├── README.md
@@ -118,7 +118,7 @@ Below is the learned virtual markers and the overall framework.
   - `command` contains the running scripts.
   - `configs` contains the configurations in `yml` format.
   - `data` contains soft links to images and annotations directories.
-  - `lib` contains kernel codes for our method.
+  - `virtualmarker` contains kernel codes for our method.
   - `main` contains high-level codes for training or testing the network.
   - `models` contains pre-trained weights. Download from [Google drive](https://drive.google.com/drive/folders/1IQ-rvjj_t6ZInlzDfKBNeJ0noOs3fIaW?usp=share_link) or [Onedrive](https://chinapku-my.sharepoint.com/:f:/g/personal/2101111546_pku_edu_cn/EggzlMbPMwtDr8aBb8HNySQBuhh3CtWceRbQMcMdiztDcg?e=YgTfry).
   - *`experiment` will be automatically made after running the code, it contains the outputs, including trained model weights, test metrics and visualized outputs.
