@@ -80,12 +80,12 @@ Below is the learned virtual markers and the overall framework.
     # 2. Install PyTorch >= v1.6.0 following [official instruction](https://pytorch.org/). Please adapt the cuda version to yours.
     pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
 
-    # 3. Install other packages. This project doesn't have any special or difficult-to-install dependencies.
-    sh requirements.sh
-
-    # 4. Pull our code.
+    # 3. Pull our code.
     git clone https://github.com/ShirleyMaxx/VirtualMarker.git
     cd VirtualMarker
+
+    # 4. Install other packages. This project doesn't have any special or difficult-to-install dependencies.
+    sh requirements.sh
 
     #5. Install Virtual Marker
     python setup.py develop
