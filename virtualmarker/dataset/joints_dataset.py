@@ -249,7 +249,7 @@ class JointsDataset(torch.utils.data.Dataset):
         flip, rot, scale = augm_params(is_train=(self.data_split == 'train'), scale=scale)
 
         joint_img_transformed, trans, inv_trans = j2d_processing(joint_img.copy(), img_shape[1], (cfg.model.input_shape[1], cfg.model.input_shape[0]),
-                                        bbox, center, scale, rot, flip, self.flip_pairs)        # 0 - 256
+                                        bbox, center.copy(), scale, rot, flip, self.flip_pairs)        # 0 - 256
 
         # joint valid
         joint_valid = np.ones((joint_img.shape[0], 1), dtype=np.float32)
